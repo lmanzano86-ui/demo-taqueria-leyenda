@@ -1,0 +1,19 @@
+# Taqueria La Leyenda
+
+> Food truck de comida mexicana en Tampa, Florida: tacos y cenas mexicanas en la noche. (El desayuno está suspendido hasta nuevo aviso.)
+
+## Datos del negocio
+
+- Nombre: Taqueria La Leyenda
+- Dirección: 4441 Gunn Hwy, Tampa, FL (food truck)
+- Teléfono: +1 (813) 215-6270
+- Sitio web: https://taquerialaleyenda.com
+
+## Horario
+
+- Cena: todos los días, 6:00 PM – 12:00 AM
+- Desayuno: suspendido hasta nuevo aviso
+
+## Qué ofrece
+
+- Tacos y cenas mexicanas
