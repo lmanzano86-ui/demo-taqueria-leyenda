@@ -167,6 +167,9 @@ h1,h2{text-wrap:balance}
 .estado .dot{width:11px;height:11px;border-radius:50%;background:var(--verde-vivo);flex-shrink:0}
 .estado.cerrado{border-color:var(--cerrado);color:var(--tinta-suave)}
 .estado.cerrado .dot{background:var(--cerrado)}
+.aviso-susp{margin:16px 14px 0;background:#fdf3d7;border:2px solid var(--dorado);border-radius:14px;padding:12px 16px;text-align:center;font-size:15px;font-weight:600;color:var(--tinta);box-shadow:0 3px 8px var(--sombra-suave)}
+.aviso-panel{margin:10px 14px 0;background:#fdf3d7;border:1.5px dashed var(--dorado);border-radius:10px;padding:8px 12px;text-align:center;font-size:13.5px;font-weight:600;color:var(--tinta)}
+.susp-tachado{text-decoration:line-through;opacity:.5}
 .mi .thumb{width:48px;height:48px;border-radius:10px;object-fit:cover;border:2px solid var(--blanco);box-shadow:0 2px 6px var(--sombra);flex-shrink:0;align-self:center}
 .barra-movil{display:none}
 @media (max-width:640px){
@@ -232,6 +235,9 @@ h1,h2{text-wrap:balance}
   </div>
 </div>
 
+<!-- Suspensión temporal del desayuno (23–29 nov 2026): el script de restauración la retira el lunes 30 -->
+<div class="aviso-susp susp" role="note">🌅 <span data-es="Esta semana no servimos desayuno. El desayuno regresa el lunes 30 de noviembre; la cena sigue igual, todos los días de 6 PM a 12 AM." data-en="No breakfast this week. Breakfast returns Monday, November 30; dinner is on as usual, every day from 6 PM to 12 AM.">Esta semana no servimos desayuno. El desayuno regresa el lunes 30 de noviembre; la cena sigue igual, todos los días de 6 PM a 12 AM.</span></div>
+
 <!-- Franja de datos -->
 <div class="datos">
   <div><div class="ic">🕕</div><div class="tx"><b data-es="Desayuno lun–vie" data-en="Breakfast Mon–Fri">Desayuno lun–vie</b>9 AM–2 PM · Cena 6 PM–12 AM</div></div>
@@ -288,6 +294,7 @@ h1,h2{text-wrap:balance}
     <div id="btn-tarde" class="ms-btn on" role="button" tabindex="0" onclick="setMenu('tarde')">🌮 <span data-es="Cena" data-en="Dinner">Cena</span><small>Todos los días · 6:00 PM – 12:00 AM</small></div>
   </div>
   <div id="panel-desayuno" class="panel-menu" hidden>
+  <p class="aviso-panel susp">🌅 <span data-es="Esta semana el desayuno está suspendido: regresa el lunes 30 de noviembre. La cena se sirve con normalidad." data-en="Breakfast is paused this week: it returns Monday, November 30. Dinner is served as usual.">Esta semana el desayuno está suspendido: regresa el lunes 30 de noviembre. La cena se sirve con normalidad.</span></p>
   <div class="letrero">
       <div class="mt">Taqueria <span>La Leyenda</span> · <span data-es="Desayuno" data-en="Breakfast">Desayuno</span></div>
       <div class="carnes">
@@ -338,7 +345,7 @@ function setMenu(m){
   document.getElementById('btn-desayuno').classList.toggle('on', m === 'desayuno');
   document.getElementById('btn-tarde').classList.toggle('on', m === 'tarde');
 }
-(function(){ var d = new Date(); var h = d.getHours(); var dia = d.getDay(); setMenu((dia >= 1 && dia <= 5 && h < 14) ? 'desayuno' : 'tarde'); })();
+(function(){ var d = new Date(); var h = d.getHours(); var dia = d.getDay(); setMenu((dia >= 1 && dia <= 5 && h < 14 && d < new Date(2026, 10, 30)) ? 'desayuno' : 'tarde'); })();
 </script>
 
 <!-- Galería -->
@@ -400,12 +407,13 @@ function setMenu(m){
   <div class="vis">
     <div class="dir">📍 4441 Gunn Hwy, Tampa, FL 33618</div>
     <p style="color:var(--gris);font-size:14px" data-es="El truck verde de Carrollwood · Mesas al aire libre · Sin reservaciones" data-en="The green truck in Carrollwood · Outdoor seating · No reservations">El truck verde de Carrollwood · Mesas al aire libre · Sin reservaciones</p>
+    <p class="aviso-panel susp" style="margin:0 0 4px">🌅 <span data-es="Del 23 al 29 de noviembre no hay desayuno (va tachado): solo cena. El desayuno regresa el lunes 30 de noviembre." data-en="November 23–29: no breakfast (crossed out) — dinner only. Breakfast returns Monday, November 30.">Del 23 al 29 de noviembre no hay desayuno (va tachado): solo cena. El desayuno regresa el lunes 30 de noviembre.</span></p>
     <table class="horario">
-      <tr><td data-es="Lunes" data-en="Monday">Lunes</td><td>9:00 AM – 2:00 PM · 6:00 PM – 12:00 AM</td></tr>
-      <tr><td data-es="Martes" data-en="Tuesday">Martes</td><td>9:00 AM – 2:00 PM · 6:00 PM – 12:00 AM</td></tr>
-      <tr><td data-es="Miércoles" data-en="Wednesday">Miércoles</td><td>9:00 AM – 2:00 PM · 6:00 PM – 12:00 AM</td></tr>
-      <tr><td data-es="Jueves" data-en="Thursday">Jueves</td><td>9:00 AM – 2:00 PM · 6:00 PM – 12:00 AM</td></tr>
-      <tr><td data-es="Viernes" data-en="Friday">Viernes</td><td>9:00 AM – 2:00 PM · 6:00 PM – 12:00 AM</td></tr>
+      <tr><td data-es="Lunes" data-en="Monday">Lunes</td><td><span class="susp-tachado">9:00 AM – 2:00 PM</span> · 6:00 PM – 12:00 AM</td></tr>
+      <tr><td data-es="Martes" data-en="Tuesday">Martes</td><td><span class="susp-tachado">9:00 AM – 2:00 PM</span> · 6:00 PM – 12:00 AM</td></tr>
+      <tr><td data-es="Miércoles" data-en="Wednesday">Miércoles</td><td><span class="susp-tachado">9:00 AM – 2:00 PM</span> · 6:00 PM – 12:00 AM</td></tr>
+      <tr><td data-es="Jueves" data-en="Thursday">Jueves</td><td><span class="susp-tachado">9:00 AM – 2:00 PM</span> · 6:00 PM – 12:00 AM</td></tr>
+      <tr><td data-es="Viernes" data-en="Friday">Viernes</td><td><span class="susp-tachado">9:00 AM – 2:00 PM</span> · 6:00 PM – 12:00 AM</td></tr>
       <tr><td data-es="Sábado" data-en="Saturday">Sábado</td><td>6:00 PM – 12:00 AM</td></tr>
       <tr><td data-es="Domingo" data-en="Sunday">Domingo</td><td>6:00 PM – 12:00 AM</td></tr>
     </table>
@@ -454,25 +462,78 @@ function setLang(l){
 <nav class="barra-movil"><a class="bm-call" href="tel:+18132156270">📞 <span data-es="Llamar" data-en="Call">Llamar</span></a><a class="bm-map" href="https://www.google.com/maps/search/?api=1&amp;query=Taqueria+La+Leyenda&amp;query_place_id=ChIJU4J75rXBwogRShVu7FIZx1U" target="_blank" rel="noopener">📍 <span data-es="Cómo llegar" data-en="Directions">Cómo llegar</span></a></nav>
 
 <script>
+// Suspensión temporal del desayuno hasta el lunes 30-nov-2026: al llegar esa fecha, los avisos se retiran solos.
+if(new Date() >= new Date(2026, 10, 30)){
+  document.querySelectorAll('.susp').forEach(function(e){ e.style.display = 'none'; });
+  document.querySelectorAll('.susp-tachado').forEach(function(e){ e.classList.remove('susp-tachado'); });
+}
+</script>
+<script>
 function estado(){
   var el = document.getElementById('estado'); if(!el) return;
   var txt = document.getElementById('estado-txt');
   var en = (document.documentElement.lang === 'en');
   var d = new Date(); var dia = d.getDay(); var mins = d.getHours()*60 + d.getMinutes();
   var sem = (dia >= 1 && dia <= 5);
+  var susp = d < new Date(2026, 10, 30); // desayuno suspendido hasta el lunes 30-nov-2026
   var abierto = null, cierra = '';
-  if(sem && mins >= 540 && mins < 840){ abierto = true; cierra = en ? 'Breakfast until 2:00 PM' : 'Desayuno hasta las 2:00 PM'; }
+  if(sem && !susp && mins >= 540 && mins < 840){ abierto = true; cierra = en ? 'Breakfast until 2:00 PM' : 'Desayuno hasta las 2:00 PM'; }
   else if(mins >= 1080){ abierto = true; cierra = en ? 'Dinner until 12:00 AM' : 'Cena hasta las 12:00 AM'; }
   if(abierto){ el.classList.remove('cerrado'); txt.textContent = (en ? 'Open now · ' : 'Abierto ahora · ') + cierra; return; }
   var abre;
-  if(sem && mins < 540) abre = '9:00 AM';
+  if(sem && !susp && mins < 540) abre = '9:00 AM';
   else if(mins < 1080) abre = '6:00 PM';
-  else abre = sem ? '9:00 AM' : '6:00 PM';
+  else abre = (sem && !susp) ? '9:00 AM' : '6:00 PM';
   el.classList.add('cerrado');
   txt.textContent = (en ? 'Closed · Opens ' : 'Cerrado · Abrimos ') + abre;
 }
 if(typeof setLang === 'function'){ var _sl = setLang; setLang = function(l){ _sl(l); estado(); }; }
 estado(); setInterval(estado, 60000);
+</script>
+
+<!-- Consentimiento + Google Analytics (solo carga tras Aceptar) -->
+<style>
+#aviso-cookies{position:fixed;left:16px;right:16px;bottom:16px;z-index:90;max-width:640px;margin:0 auto;background:#2b2b23;border:1px solid #177033;border-radius:14px;padding:16px 18px;box-shadow:0 18px 50px rgba(0,0,0,.5);color:#fff8ec;font-family:system-ui,sans-serif}
+#aviso-cookies p{margin:0 0 12px;font-size:.92rem;line-height:1.55;color:#d8d2c0}
+#aviso-cookies a{color:#f2c230;text-decoration:underline}
+#aviso-cookies .fila{display:flex;gap:10px;flex-wrap:wrap}
+#aviso-cookies button{cursor:pointer;border-radius:10px;padding:10px 18px;font-weight:700;font-size:.92rem;border:1px solid #177033}
+#btn-aceptar-cookies{background:#d9a514;border-color:#d9a514;color:#2b2b23}
+#btn-rechazar-cookies{background:transparent;color:#fff8ec}
+</style>
+<div id="aviso-cookies" hidden>
+  <p>Usamos cookies esenciales para que el sitio funcione. Si aceptas, también medimos las visitas con Google Analytics para mejorar la página; sin tu permiso no se carga ningún medidor. Detalle en la <a href="cookies.html">política de cookies</a>.</p>
+  <div class="fila">
+    <button id="btn-aceptar-cookies" type="button">Aceptar</button>
+    <button id="btn-rechazar-cookies" type="button">Rechazar</button>
+  </div>
+</div>
+<script>
+(function(){
+  var ID='G-953WBFHP0B', clave='leyenda-consentimiento', eleccion=null;
+  try{ eleccion=localStorage.getItem(clave); }catch(e){}
+  function cargarGA(){
+    if(window.__gaCargado) return; window.__gaCargado=true;
+    var s=document.createElement('script'); s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id='+ID;
+    document.head.appendChild(s);
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag=gtag; gtag('js', new Date()); gtag('config', ID);
+  }
+  if(eleccion==='si'){ cargarGA(); return; }
+  if(eleccion==='no'){ return; }
+  var aviso=document.getElementById('aviso-cookies');
+  aviso.hidden=false;
+  document.getElementById('btn-aceptar-cookies').addEventListener('click', function(){
+    try{ localStorage.setItem(clave,'si'); }catch(e){}
+    aviso.hidden=true; cargarGA();
+  });
+  document.getElementById('btn-rechazar-cookies').addEventListener('click', function(){
+    try{ localStorage.setItem(clave,'no'); }catch(e){}
+    aviso.hidden=true;
+  });
+})();
 </script>
 </body>
 </html>
