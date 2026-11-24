@@ -432,6 +432,63 @@ function setLang(l){
   if(l === 'en') setLang('en');
 })();
 </script>
+<style>
+.modal-gracias{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(43,32,16,.72)}
+.modal-gracias.visible{display:flex}
+.mg-card{position:relative;max-width:420px;width:100%;background:var(--crema);border-radius:20px;border:3px solid var(--dorado);box-shadow:0 24px 60px rgba(0,0,0,.45);padding:32px 26px 24px;text-align:center;overflow:hidden;animation:mg-in .35s ease}
+.mg-card::before{content:"";position:absolute;top:0;left:0;right:0;height:10px;background:linear-gradient(90deg,#b3541e,#d9a514,#b01e1a,#b3541e)}
+@keyframes mg-in{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.mg-card{animation:none}}
+.mg-emoji{font-size:54px;line-height:1.1}
+.mg-hoja{position:absolute;font-size:22px;opacity:.45}
+.mg-card h3{font-size:31px;color:var(--verde-osc);margin:8px 0 6px}
+.mg-card p{color:var(--tinta);font-size:15.5px;margin:6px 0}
+.mg-vuelve{display:inline-block;margin:10px 0 4px;background:#fdf3d7;border:2px dashed var(--dorado);border-radius:12px;padding:8px 14px;font-weight:800;color:var(--mostaza);font-size:16px}
+.mg-gracias{font-size:13.5px;color:var(--gris)}
+.mg-btn{margin-top:14px;background:var(--verde-osc);color:#fff;border:0;border-radius:12px;padding:12px 30px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Barlow',Arial,sans-serif}
+.mg-x{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:2px solid var(--dorado);background:#fff;color:var(--tinta);font-size:15px;cursor:pointer;line-height:1;z-index:2}
+</style>
+<div class="modal-gracias" id="modal-gracias" role="dialog" aria-modal="true" aria-labelledby="mg-titulo">
+  <div class="mg-card">
+    <button class="mg-x" id="mg-cerrar" aria-label="Cerrar">✕</button>
+    <span class="mg-hoja" style="top:14px;left:14px">🍂</span>
+    <span class="mg-hoja" style="bottom:12px;right:14px">🍁</span>
+    <div class="mg-emoji">🦃</div>
+    <h3 id="mg-titulo" data-es="¡Feliz Día de Acción de Gracias!" data-en="Happy Thanksgiving!">¡Feliz Día de Acción de Gracias!</h3>
+    <p data-es="Cerramos el miércoles 25 y el jueves 26 de noviembre por Thanksgiving." data-en="We'll be closed on Wednesday, November 25 and Thursday, November 26 for Thanksgiving.">Cerramos el miércoles 25 y el jueves 26 de noviembre por Thanksgiving.</p>
+    <div class="mg-vuelve" data-es="Volvemos el viernes 27 · 6:00 PM" data-en="We're back Friday, November 27 · 6:00 PM">Volvemos el viernes 27 · 6:00 PM</div>
+    <p class="mg-gracias" data-es="¡Gracias por su apoyo! Felices fiestas." data-en="Thank you for your support! Happy holidays.">¡Gracias por su apoyo! Felices fiestas.</p>
+    <button class="mg-btn" id="mg-ok" data-es="Entendido" data-en="Got it">Entendido</button>
+  </div>
+</div>
+<script>
+(function(){
+  var modal = document.getElementById('modal-gracias'); if(!modal) return;
+  if(new Date() >= new Date(2026, 10, 27, 18, 0)) return; // El aviso se apaga solo el viernes 27 a las 6:00 PM
+  var visto = false;
+  try{ visto = !!sessionStorage.getItem('ll-gracias-2026'); }catch(e){}
+  if(visto) return;
+  function aplicarIdioma(){
+    var l = document.documentElement.lang || 'es';
+    modal.querySelectorAll('[data-es]').forEach(function(el){
+      var v = el.getAttribute('data-' + l); if(v !== null) el.innerHTML = v;
+    });
+  }
+  function cerrar(){
+    modal.classList.remove('visible');
+    document.body.style.overflow = '';
+    try{ sessionStorage.setItem('ll-gracias-2026', '1'); }catch(e){}
+  }
+  aplicarIdioma();
+  modal.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('mg-cerrar').addEventListener('click', cerrar);
+  document.getElementById('mg-ok').addEventListener('click', cerrar);
+  modal.addEventListener('click', function(ev){ if(ev.target === modal) cerrar(); });
+  document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && modal.classList.contains('visible')) cerrar(); });
+  if(typeof setLang === 'function'){ var _sl2 = setLang; setLang = function(l){ _sl2(l); aplicarIdioma(); }; }
+})();
+</script>
 <nav class="barra-movil"><a class="bm-call" href="tel:+18132156270">📞 <span data-es="Llamar" data-en="Call">Llamar</span></a><a class="bm-map" href="https://www.google.com/maps/search/?api=1&amp;query=Taqueria+La+Leyenda&amp;query_place_id=ChIJU4J75rXBwogRShVu7FIZx1U" target="_blank" rel="noopener">📍 <span data-es="Cómo llegar" data-en="Directions">Cómo llegar</span></a></nav>
 
 <script>
@@ -440,6 +497,12 @@ function estado(){
   var txt = document.getElementById('estado-txt');
   var en = (document.documentElement.lang === 'en');
   var d = new Date(); var mins = d.getHours()*60 + d.getMinutes();
+  var fecha = d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate();
+  if(fecha === 20261125 || fecha === 20261126){ // Cerrado por Thanksgiving (2026)
+    el.classList.add('cerrado');
+    txt.textContent = en ? 'Closed for Thanksgiving · Opens Friday 6:00 PM' : 'Cerrado por Thanksgiving · Abrimos el viernes 6:00 PM';
+    return;
+  }
   // Sin desayuno hasta nuevo aviso (orden de Lester, 2026-11-23): solo cena, todos los días 6 PM–12 AM.
   if(mins >= 1080){
     el.classList.remove('cerrado');
